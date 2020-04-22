@@ -17,11 +17,17 @@ class CommissionsService {
     public function getCommission($row){
         $jsonRow = $this->readerService->readRow($row);
 
-        if (!$jsonRow) return;
+        // not phpunit test able
+//        if (!$jsonRow) die('error!');
+
+        if (!$jsonRow) return null;
 
         $binResults = $this->readerService->readBinList($jsonRow->bin);
 
-        if (!$binResults) die('error!');
+        // not phpunit test able
+//        if (!$binResults) die('error!');
+
+        if (!$binResults) return null;
 
         //$isEu
         $isBaseCurrency = $this->currencyService->isBaseCurrency(

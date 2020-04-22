@@ -15,7 +15,7 @@ class ReaderService {
         $this->filesystem = new Filesystem();
         // create a log channel
         $this->log = new Logger('ReaderService');
-        $this->log->pushHandler(new StreamHandler(getenv('LOG_FILE'), Logger::WARNING));
+        $this->log->pushHandler(new StreamHandler(__DIR__.getenv('LOG_FILE'), Logger::WARNING));
     }
 
     public function readCurrencyData(){
@@ -41,7 +41,9 @@ class ReaderService {
             return file_get_contents($fileName);
         }else{
             $this->log->error($fileName .', not found');
-            die('error!');
+            // not phpunit test able
+//            die('error!');
+            return null;
         }
     }
 
@@ -50,7 +52,9 @@ class ReaderService {
             return $rates = @json_decode(file_get_contents($apiEndPoint), $assoc);
         }catch (\Exception $exception){
             $this->log->error($exception->getMessage());
-            die('error!');
+            // not phpunit test able
+//            die('error!');
+            return null;
         }
 
     }

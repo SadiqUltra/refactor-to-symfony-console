@@ -35,7 +35,9 @@ class CurrencyService {
         }
 
         if (!isset($tmpRates[$definedBase])){
-            die('error');
+            // not phpunit test able
+//            die('error');
+            return null;
         }
 
         $rates = [];

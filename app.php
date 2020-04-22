@@ -11,9 +11,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-// create a log channel
-$log = new Logger('name');
-$log->pushHandler(new StreamHandler('app.log', Logger::WARNING));
 
 
 $command = new CommandHandler();
