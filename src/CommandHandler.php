@@ -16,8 +16,14 @@ class CommandHandler extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Hello World');
 
+
+        $readerService = new ReaderService();
+        $currencyService = new CurrencyService($readerService);
+        echo $currencyService->isBaseCurrency('AT');
+
+
+        $output->writeln('');
         return 0;
     }
 }
