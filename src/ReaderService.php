@@ -8,7 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class ReaderService {
 
     private $filesystem;
-    private $log;
+    public $log;
 
     public function __construct()
     {
@@ -29,7 +29,7 @@ class ReaderService {
     }
 
     public function readBinList($bin){
-        return $this->readApiToJson(getenv('BIN_LIST_API_ENDPOINT') . $bin);
+        return $this->readApiToJson(getenv('BIN_LIST_API_ENDPOINT') . $bin, false);
     }
 
     public function readInputFile($fileName){
@@ -45,14 +45,23 @@ class ReaderService {
         }
     }
 
-    public function readApiToJson($apiEndPoint){
+    public function readApiToJson($apiEndPoint, $assoc=true){
         try{
-            return $rates = @json_decode(file_get_contents($apiEndPoint), true);
+            return $rates = @json_decode(file_get_contents($apiEndPoint), $assoc);
         }catch (\Exception $exception){
             $this->log->error($exception->getMessage());
             die('error!');
         }
 
+    }
+
+    public function readRow($row){
+        // json Exception
+        try{
+            return $jsonRow = json_decode($row);
+        }catch(\Exception $exception){
+            $this->log->error($exception->getMessage());
+        }
     }
 
 
