@@ -20,12 +20,8 @@ class ReaderService {
 
     public function readCurrencyData(){
         $fileName = getenv('CURRENCY_DATA_FILE');
-        if ($this->filesystem->exists($fileName)){
-            $rawJson = file_get_contents($fileName);
-            return json_decode($rawJson);
-        }else{
-            $this->log->error('CURRENCY_DATA_FILE: '. $fileName .', not found');
-        }
+        $rawJson = $this->readFile($fileName);
+        return json_decode($rawJson);
     }
 
     public function readRates(){
@@ -36,21 +32,28 @@ class ReaderService {
         return $this->readApiToJson(getenv('BIN_LIST_API_ENDPOINT') . $bin);
     }
 
+    public function readInputFile($fileName){
+            return explode("\n", $this->readFile($fileName));
+    }
+
+    public function readFile($fileName){
+        if ($this->filesystem->exists($fileName)){
+            return file_get_contents($fileName);
+        }else{
+            $this->log->error($fileName .', not found');
+            die('error!');
+        }
+    }
+
     public function readApiToJson($apiEndPoint){
         try{
             return $rates = @json_decode(file_get_contents($apiEndPoint), true);
         }catch (\Exception $exception){
             $this->log->error($exception->getMessage());
+            die('error!');
         }
 
     }
 
-    public function readInputFile($fileName){
-        if ($this->filesystem->exists($fileName)){
-            return explode("\n", file_get_contents($fileName));
-        }else{
-            $this->log->error($fileName .', not found');
-            die;
-        }
-    }
+
 }
