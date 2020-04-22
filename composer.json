@@ -1,0 +1,15 @@
+{
+    "name": "sadiq/refactor",
+    "authors": [
+        {
+            "name": "sadikultra",
+            "email": "sadikultra@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {"Sadiq\\": "src/"}
+    }
+}
