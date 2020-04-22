@@ -9,7 +9,7 @@ class CommissionsService {
     public function __construct(ReaderService $readerService){
         $this->readerService = $readerService;
         $this->currencyService = new CurrencyService($readerService);
-        $this->rates = $this->readerService->readRates();
+        $this->rates = $this->currencyService->getRates();
 
 //        var_dump($this->rates);
     }

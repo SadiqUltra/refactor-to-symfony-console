@@ -19,12 +19,6 @@ class CommandHandler extends Command
     {
         $this
             ->setDescription('refactor')
-//            ->addOption(
-//                'fileName',
-//                null,
-//                InputOption::VALUE_REQUIRED,
-//                'Input file name'
-//            )
             ->addArgument('fileName', InputArgument::REQUIRED, 'input file name')
         ;
     }

@@ -19,4 +19,38 @@ class CurrencyService {
 
         return false;
     }
+
+    public function getRates(){
+        $jsonExchangeRates = $this->readerService->readRates();
+        $baseOfExchange = $jsonExchangeRates['base'];
+
+        $definedBase = getenv('BASE_CURRENCY');
+
+        $tmpRates = $jsonExchangeRates['rates'];
+
+//        var_dump($tmpRates);
+
+        if (strcasecmp($baseOfExchange, $definedBase) == 0){
+            return $tmpRates;
+        }
+
+        if (!isset($tmpRates[$definedBase])){
+            die('error');
+        }
+
+        $rates = [];
+        $rateOfBase = $tmpRates[$definedBase];
+
+
+        $rates[$baseOfExchange] = 1 / $rateOfBase;
+
+        foreach ($tmpRates as $key=>$rate){
+            if (strcasecmp($key, $definedBase) == 0){
+                continue;
+            }
+            $rates[$key] = $rate/$rateOfBase;
+        }
+
+        return $rates;
+    }
 }

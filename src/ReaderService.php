@@ -25,7 +25,7 @@ class ReaderService {
     }
 
     public function readRates(){
-            return $this->readApiToJson(getenv('RATES_API_ENDPOINT'))['rates'];
+            return $this->readApiToJson(getenv('RATES_API_ENDPOINT'));
     }
 
     public function readBinList($bin){
