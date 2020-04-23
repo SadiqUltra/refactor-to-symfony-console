@@ -3,8 +3,6 @@
 namespace Sadiq;
 
 use Exception;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -46,7 +44,7 @@ class ReaderService
         if ($this->filesystem->exists($fileName)) {
             return file_get_contents($fileName);
         } else {
-            logError('ReaderService',$fileName . ', not found');
+            logError('ReaderService', $fileName . ', not found');
             // not phpunit test able
 //            die('error!');
             return null;

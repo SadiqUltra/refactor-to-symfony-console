@@ -34,7 +34,8 @@ class CommissionsService
     /**
      * @return void
      */
-    public function loadRates(){
+    public function loadRates()
+    {
         if (!$this->rates) {
             $this->rates = $this->currencyService->getRates();
         }
@@ -78,7 +79,7 @@ class CommissionsService
         if (!$isBaseCurrency or $rate > 0) {
             // possibility of divided by zero
             if ($this->rates == 0) {
-                logError('CommissionService','Rate = 0');
+                logError('CommissionService', 'Rate = 0');
                 return;
             }
             $amntFixed = $jsonRow->amount / $rate;
