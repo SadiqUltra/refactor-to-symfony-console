@@ -15,10 +15,6 @@ class ReaderService
 {
 
     /**
-     * @var Logger
-     */
-    public $log;
-    /**
      * @var Filesystem
      */
     private $filesystem;
@@ -29,9 +25,6 @@ class ReaderService
     public function __construct()
     {
         $this->filesystem = new Filesystem();
-        // create a log channel
-        $this->log = new Logger('ReaderService');
-        $this->log->pushHandler(new StreamHandler(__DIR__ . getenv('LOG_FILE'), Logger::WARNING));
     }
 
     /**
@@ -53,7 +46,7 @@ class ReaderService
         if ($this->filesystem->exists($fileName)) {
             return file_get_contents($fileName);
         } else {
-            $this->log->error($fileName . ', not found');
+            logError('ReaderService',$fileName . ', not found');
             // not phpunit test able
 //            die('error!');
             return null;
@@ -78,7 +71,7 @@ class ReaderService
         try {
             return $rates = @json_decode(file_get_contents($apiEndPoint), $assoc);
         } catch (Exception $exception) {
-            $this->log->error($exception->getMessage());
+            logError('ReaderService', $exception->getMessage());
             // not phpunit test able
 //            die('error!');
             return null;
@@ -113,7 +106,7 @@ class ReaderService
         try {
             return $jsonRow = json_decode($row);
         } catch (Exception $exception) {
-            $this->log->error($exception->getMessage());
+            logError('ReaderService', $exception->getMessage());
         }
     }
 }

@@ -29,9 +29,15 @@ class CommissionsService
     {
         $this->readerService = $readerService;
         $this->currencyService = new CurrencyService($readerService);
-        $this->rates = $this->currencyService->getRates();
+    }
 
-//        var_dump($this->rates);
+    /**
+     * @return void
+     */
+    public function loadRates(){
+        if (!$this->rates) {
+            $this->rates = $this->currencyService->getRates();
+        }
     }
 
     /**
@@ -63,6 +69,7 @@ class CommissionsService
             ($binResults->country->alpha2)
         );
 
+        $this->loadRates();
         $rate = isset($this->rates[$jsonRow->currency]) ? $this->rates[$jsonRow->currency] : null;
 
         if ($isBaseCurrency or $rate == 0) {
@@ -71,7 +78,7 @@ class CommissionsService
         if (!$isBaseCurrency or $rate > 0) {
             // possibility of divided by zero
             if ($this->rates == 0) {
-                $this->readerService->log->error('Rate = 0');
+                logError('CommissionService','Rate = 0');
                 return;
             }
             $amntFixed = $jsonRow->amount / $rate;
