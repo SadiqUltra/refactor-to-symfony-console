@@ -55,7 +55,8 @@ class CommissionsService
         }
 
         $binResults = $this->readerService->readApiToJson(
-            getenv('BIN_LIST_API_ENDPOINT') . $jsonRow->bin, false
+            getenv('BIN_LIST_API_ENDPOINT') . $jsonRow->bin,
+            false
         );
 
         if (!$binResults) {
