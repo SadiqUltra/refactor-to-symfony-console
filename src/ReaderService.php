@@ -1,56 +1,83 @@
 <?php
+
 namespace Sadiq;
+
+use Exception;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ReaderService {
+/**
+ * Class ReaderService
+ * @package Sadiq
+ */
+class ReaderService
+{
 
-    private $filesystem;
+    /**
+     * @var Logger
+     */
     public $log;
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
 
+    /**
+     * ReaderService constructor.
+     */
     public function __construct()
     {
         $this->filesystem = new Filesystem();
         // create a log channel
         $this->log = new Logger('ReaderService');
-        $this->log->pushHandler(new StreamHandler(__DIR__.getenv('LOG_FILE'), Logger::WARNING));
+        $this->log->pushHandler(new StreamHandler(__DIR__ . getenv('LOG_FILE'), Logger::WARNING));
     }
 
-    public function readCurrencyData(){
+    /**
+     * @return mixed
+     */
+    public function readCurrencyData()
+    {
         $fileName = getenv('CURRENCY_DATA_FILE');
         $rawJson = $this->readFile($fileName);
         return json_decode($rawJson);
     }
 
-    public function readRates(){
-            return $this->readApiToJson(getenv('RATES_API_ENDPOINT'));
-    }
-
-    public function readBinList($bin){
-        return $this->readApiToJson(getenv('BIN_LIST_API_ENDPOINT') . $bin, false);
-    }
-
-    public function readInputFile($fileName){
-            return explode("\n", $this->readFile($fileName));
-    }
-
-    public function readFile($fileName){
-        if ($this->filesystem->exists($fileName)){
+    /**
+     * @param $fileName
+     * @return false|string|null
+     */
+    public function readFile($fileName)
+    {
+        if ($this->filesystem->exists($fileName)) {
             return file_get_contents($fileName);
-        }else{
-            $this->log->error($fileName .', not found');
+        } else {
+            $this->log->error($fileName . ', not found');
             // not phpunit test able
 //            die('error!');
             return null;
         }
     }
 
-    public function readApiToJson($apiEndPoint, $assoc=true){
-        try{
+    /**
+     * @return mixed|null
+     */
+    public function readRates()
+    {
+        return $this->readApiToJson(getenv('RATES_API_ENDPOINT'));
+    }
+
+    /**
+     * @param $apiEndPoint
+     * @param bool $assoc
+     * @return mixed|null
+     */
+    public function readApiToJson($apiEndPoint, $assoc = true)
+    {
+        try {
             return $rates = @json_decode(file_get_contents($apiEndPoint), $assoc);
-        }catch (\Exception $exception){
+        } catch (Exception $exception) {
             $this->log->error($exception->getMessage());
             // not phpunit test able
 //            die('error!');
@@ -59,11 +86,34 @@ class ReaderService {
 
     }
 
-    public function readRow($row){
+    /**
+     * @param $bin
+     * @return mixed|null
+     */
+    public function readBinList($bin)
+    {
+        return $this->readApiToJson(getenv('BIN_LIST_API_ENDPOINT') . $bin, false);
+    }
+
+    /**
+     * @param $fileName
+     * @return array
+     */
+    public function readInputFile($fileName)
+    {
+        return explode("\n", $this->readFile($fileName));
+    }
+
+    /**
+     * @param $row
+     * @return mixed
+     */
+    public function readRow($row)
+    {
         // json Exception
-        try{
+        try {
             return $jsonRow = json_decode($row);
-        }catch(\Exception $exception){
+        } catch (Exception $exception) {
             $this->log->error($exception->getMessage());
         }
     }

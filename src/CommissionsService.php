@@ -1,12 +1,31 @@
 <?php
-namespace Sadiq;
 
-class CommissionsService {
+namespace Sadiq;
+/**
+ * Class CommissionsService
+ * @package Sadiq
+ */
+class CommissionsService
+{
+    /**
+     * @var ReaderService
+     */
     private $readerService;
+    /**
+     * @var CurrencyService
+     */
     private $currencyService;
+    /**
+     * @var array|null
+     */
     private $rates;
 
-    public function __construct(ReaderService $readerService){
+    /**
+     * CommissionsService constructor.
+     * @param ReaderService $readerService
+     */
+    public function __construct(ReaderService $readerService)
+    {
         $this->readerService = $readerService;
         $this->currencyService = new CurrencyService($readerService);
         $this->rates = $this->currencyService->getRates();
@@ -14,7 +33,12 @@ class CommissionsService {
 //        var_dump($this->rates);
     }
 
-    public function getCommission($row){
+    /**
+     * @param $row
+     * @return false|float|void|null
+     */
+    public function getCommission($row)
+    {
         $jsonRow = $this->readerService->readRow($row);
 
         // not phpunit test able
@@ -41,7 +65,7 @@ class CommissionsService {
         }
         if (!$isBaseCurrency or $rate > 0) {
             // possibility of divided by zero
-            if ($this->rates == 0){
+            if ($this->rates == 0) {
                 $this->readerService->log->error('Rate = 0');
                 return;
             }

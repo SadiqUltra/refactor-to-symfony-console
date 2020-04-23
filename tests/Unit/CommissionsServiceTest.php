@@ -5,13 +5,14 @@ use PHPUnit\Framework\TestCase;
 use Sadiq\CommissionsService;
 use Sadiq\ReaderService;
 
-class CommissionsServiceTest extends TestCase {
+class CommissionsServiceTest extends TestCase
+{
 
 
     public function testInputTxtResult1()
     {
-        putenv('RATES_API_ENDPOINT='.__DIR__.'/../offlineData/exchangeratesapi.json');
-        putenv("BIN_LIST_API_ENDPOINT=".__DIR__."/../offlineData/bin/");
+        putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
+        putenv("BIN_LIST_API_ENDPOINT=" . __DIR__ . "/../offlineData/bin/");
         putenv("BASE_CURRENCY=EUR");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
@@ -23,8 +24,8 @@ class CommissionsServiceTest extends TestCase {
 
     public function testInputTxtResult2()
     {
-        putenv('RATES_API_ENDPOINT='.__DIR__.'/../offlineData/exchangeratesapi.json');
-        putenv("BIN_LIST_API_ENDPOINT=".__DIR__."/../offlineData/bin/");
+        putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
+        putenv("BIN_LIST_API_ENDPOINT=" . __DIR__ . "/../offlineData/bin/");
         putenv("BASE_CURRENCY=EUR");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
@@ -36,8 +37,8 @@ class CommissionsServiceTest extends TestCase {
 
     public function testBinError()
     {
-        putenv('RATES_API_ENDPOINT='.__DIR__.'/../offlineData/exchangeratesapi.json');
-        putenv("BIN_LIST_API_ENDPOINT=".__DIR__."/../offlineData/bin/");
+        putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
+        putenv("BIN_LIST_API_ENDPOINT=" . __DIR__ . "/../offlineData/bin/");
         putenv("BASE_CURRENCY=EUR");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
@@ -48,8 +49,8 @@ class CommissionsServiceTest extends TestCase {
 
     public function testCurrencyCAD()
     {
-        putenv('RATES_API_ENDPOINT='.__DIR__.'/../offlineData/exchangeratesapi.json');
-        putenv("BIN_LIST_API_ENDPOINT=".__DIR__."/../offlineData/bin/");
+        putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
+        putenv("BIN_LIST_API_ENDPOINT=" . __DIR__ . "/../offlineData/bin/");
         putenv("BASE_CURRENCY=CAD");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
@@ -60,8 +61,8 @@ class CommissionsServiceTest extends TestCase {
 
     public function testRatesError()
     {
-        putenv('RATES_API_ENDPOINT='.__DIR__.'/../offlineData/exchangeratesapi.json');
-        putenv("BIN_LIST_API_ENDPOINT=".__DIR__."/../offlineData/bin/");
+        putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
+        putenv("BIN_LIST_API_ENDPOINT=" . __DIR__ . "/../offlineData/bin/");
         putenv("BASE_CURRENCY=BDT");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();

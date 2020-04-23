@@ -4,7 +4,8 @@
 use PHPUnit\Framework\TestCase;
 use Sadiq\ReaderService;
 
-class ReaderServiceTest extends TestCase {
+class ReaderServiceTest extends TestCase
+{
 
 
     public function testApiLoading()
@@ -27,7 +28,6 @@ class ReaderServiceTest extends TestCase {
     }
 
 
-
     public function testReadFileErrorPath()
     {
         $readerService = new ReaderService();
@@ -36,7 +36,7 @@ class ReaderServiceTest extends TestCase {
 
     public function testRates()
     {
-        putenv('RATES_API_ENDPOINT='.__DIR__.'/../offlineData/exchangeratesapi.json');
+        putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
         putenv("BASE_CURRENCY=EUR");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();

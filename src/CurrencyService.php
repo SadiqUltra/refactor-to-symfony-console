@@ -1,26 +1,48 @@
 <?php
+
 namespace Sadiq;
 
-class CurrencyService {
+/**
+ * Class CurrencyService
+ * @package Sadiq
+ */
+class CurrencyService
+{
 
+    /**
+     * @var ReaderService
+     */
     private $readerService;
 
+    /**
+     * CurrencyService constructor.
+     * @param ReaderService $readerService
+     */
     public function __construct(ReaderService $readerService)
     {
         $this->readerService = $readerService;
     }
 
-    public function isBaseCurrency($currency){
+    /**
+     * @param $currency
+     * @return bool
+     */
+    public function isBaseCurrency($currency)
+    {
         $currencyDataJson = $this->readerService->readCurrencyData();
 
-        if (isset($currencyDataJson->$currency) && $currencyDataJson->$currency === getenv('BASE_CURRENCY')){
+        if (isset($currencyDataJson->$currency) && $currencyDataJson->$currency === getenv('BASE_CURRENCY')) {
             return true;
         }
 
         return false;
     }
 
-    public function getRates(){
+    /**
+     * @return array|null
+     */
+    public function getRates()
+    {
         $jsonExchangeRates = $this->readerService->readRates();
         $baseOfExchange = $jsonExchangeRates['base'];
 
@@ -30,11 +52,11 @@ class CurrencyService {
 
 //        var_dump($tmpRates);
 
-        if (strcasecmp($baseOfExchange, $definedBase) == 0){
+        if (strcasecmp($baseOfExchange, $definedBase) == 0) {
             return $tmpRates;
         }
 
-        if (!isset($tmpRates[$definedBase])){
+        if (!isset($tmpRates[$definedBase])) {
             // not phpunit test able
 //            die('error');
             return null;
@@ -46,11 +68,11 @@ class CurrencyService {
 
         $rates[$baseOfExchange] = 1 / $rateOfBase;
 
-        foreach ($tmpRates as $key=>$rate){
-            if (strcasecmp($key, $definedBase) == 0){
+        foreach ($tmpRates as $key => $rate) {
+            if (strcasecmp($key, $definedBase) == 0) {
                 continue;
             }
-            $rates[$key] = $rate/$rateOfBase;
+            $rates[$key] = $rate / $rateOfBase;
         }
 
         return $rates;
