@@ -45,18 +45,9 @@ class ReaderService
             return file_get_contents($fileName);
         } else {
             logError('ReaderService', $fileName . ', not found');
-            // not phpunit test able
-//            die('error!');
+            echo 'Error';
             return null;
         }
-    }
-
-    /**
-     * @return mixed|null
-     */
-    public function readRates()
-    {
-        return $this->readApiToJson(getenv('RATES_API_ENDPOINT'));
     }
 
     /**
@@ -70,19 +61,9 @@ class ReaderService
             return $rates = @json_decode(file_get_contents($apiEndPoint), $assoc);
         } catch (Exception $exception) {
             logError('ReaderService', $exception->getMessage());
-            // not phpunit test able
-//            die('error!');
+            echo 'error!';
             return null;
         }
-    }
-
-    /**
-     * @param $bin
-     * @return mixed|null
-     */
-    public function readBinList($bin)
-    {
-        return $this->readApiToJson(getenv('BIN_LIST_API_ENDPOINT') . $bin, false);
     }
 
     /**
@@ -104,6 +85,7 @@ class ReaderService
         try {
             return $jsonRow = json_decode($row);
         } catch (Exception $exception) {
+            echo 'error!';
             logError('ReaderService', $exception->getMessage());
         }
     }

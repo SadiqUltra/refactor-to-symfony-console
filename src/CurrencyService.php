@@ -43,7 +43,7 @@ class CurrencyService
      */
     public function getRates()
     {
-        $jsonExchangeRates = $this->readerService->readRates();
+        $jsonExchangeRates = $this->readerService->readApiToJson(getenv('RATES_API_ENDPOINT'));
 
         $currencyConverterService = new CurrencyConverterService();
 

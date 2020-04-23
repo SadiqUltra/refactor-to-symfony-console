@@ -49,23 +49,20 @@ class CommissionsService
     {
         $jsonRow = $this->readerService->readRow($row);
 
-        // not phpunit test able
-//        if (!$jsonRow) die('error!');
-
         if (!$jsonRow) {
+            echo 'error';
             return null;
         }
 
-        $binResults = $this->readerService->readBinList($jsonRow->bin);
-
-        // not phpunit test able
-//        if (!$binResults) die('error!');
+        $binResults = $this->readerService->readApiToJson(
+            getenv('BIN_LIST_API_ENDPOINT') . $jsonRow->bin, false
+        );
 
         if (!$binResults) {
+            echo 'error';
             return null;
         }
 
-        //$isEu
         $isBaseCurrency = $this->currencyService->isBaseCurrency(
             ($binResults->country->alpha2)
         );
@@ -85,7 +82,6 @@ class CommissionsService
             $amntFixed = $jsonRow->amount / $rate;
         }
 
-        // reduced unnecessary comparison
         //    ceil commissions by cents
         return round(
             $amntFixed * ($isBaseCurrency ? 0.01 : 0.02),
