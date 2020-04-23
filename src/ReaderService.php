@@ -83,7 +83,6 @@ class ReaderService
 //            die('error!');
             return null;
         }
-
     }
 
     /**
@@ -117,6 +116,4 @@ class ReaderService
             $this->log->error($exception->getMessage());
         }
     }
-
-
 }

@@ -6,8 +6,6 @@ use Sadiq\ReaderService;
 
 class ReaderServiceTest extends TestCase
 {
-
-
     public function testApiLoading()
     {
         $readerService = new ReaderService();

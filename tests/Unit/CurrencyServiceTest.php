@@ -7,8 +7,6 @@ use Sadiq\ReaderService;
 
 class CurrencyServiceTest extends TestCase
 {
-
-
     public function testIsBaseCurrencyAT()
     {
         putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
@@ -53,5 +51,4 @@ class CurrencyServiceTest extends TestCase
 
         $this->assertTrue(null == $currencyService->getRates());
     }
-
 }

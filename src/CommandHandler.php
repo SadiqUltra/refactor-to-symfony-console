@@ -25,7 +25,6 @@ class CommandHandler extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $readerService = new ReaderService();
         $commissionService = new CommissionsService($readerService);
 
@@ -34,7 +33,9 @@ class CommandHandler extends Command
 
         // looping over rows from input file
         foreach ($readerService->readInputFile($inputFileName) as $row) {
-            if (empty($row)) break;
+            if (empty($row)) {
+                break;
+            }
             echo $commissionService->getCommission($row) . PHP_EOL;
         }
 

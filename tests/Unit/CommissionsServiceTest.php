@@ -7,8 +7,6 @@ use Sadiq\ReaderService;
 
 class CommissionsServiceTest extends TestCase
 {
-
-
     public function testInputTxtResult1()
     {
         putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');

@@ -1,6 +1,7 @@
 <?php
 
 namespace Sadiq;
+
 /**
  * Class CommissionsService
  * @package Sadiq
@@ -44,14 +45,18 @@ class CommissionsService
         // not phpunit test able
 //        if (!$jsonRow) die('error!');
 
-        if (!$jsonRow) return null;
+        if (!$jsonRow) {
+            return null;
+        }
 
         $binResults = $this->readerService->readBinList($jsonRow->bin);
 
         // not phpunit test able
 //        if (!$binResults) die('error!');
 
-        if (!$binResults) return null;
+        if (!$binResults) {
+            return null;
+        }
 
         //$isEu
         $isBaseCurrency = $this->currencyService->isBaseCurrency(
@@ -78,8 +83,5 @@ class CommissionsService
             $amntFixed * ($isBaseCurrency ? 0.01 : 0.02),
             2 // For example, 0.46180... should become 0.47, means two digit
         );
-
     }
-
-
 }
