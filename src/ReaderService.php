@@ -58,7 +58,16 @@ class ReaderService
     public function readApiToJson($apiEndPoint, $assoc = true)
     {
         try {
-            return $rates = @json_decode(file_get_contents($apiEndPoint), $assoc);
+            $rates = json_decode(
+                file_get_contents($apiEndPoint),
+                $assoc
+            );
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Not Valid JSON: '.json_last_error_msg());
+            }
+
+            return $rates;
         } catch (Exception $exception) {
             logError('ReaderService', $exception->getMessage());
             echo 'error!';
@@ -81,9 +90,13 @@ class ReaderService
      */
     public function readRow($row)
     {
-        // json Exception
         try {
-            return $jsonRow = json_decode($row);
+            $jsonRow = json_decode($row);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Not Valid JSON: '.json_last_error_msg());
+            }
+
+            return $jsonRow;
         } catch (Exception $exception) {
             echo 'error!';
             logError('ReaderService', $exception->getMessage());
