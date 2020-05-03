@@ -13,14 +13,20 @@ class CurrencyService
      * @var ReaderService
      */
     private $readerService;
+    /**
+     * @var CurrencyConverterService
+     */
+    private $currencyConverterService;
 
     /**
      * CurrencyService constructor.
      * @param ReaderService $readerService
+     * @param CurrencyConverterService $currencyConverterService
      */
-    public function __construct(ReaderService $readerService)
+    public function __construct(ReaderService $readerService, CurrencyConverterService $currencyConverterService)
     {
         $this->readerService = $readerService;
+        $this->currencyConverterService = $currencyConverterService;
     }
 
     /**
@@ -45,9 +51,7 @@ class CurrencyService
     {
         $jsonExchangeRates = $this->readerService->readApiToJson(getenv('RATES_API_ENDPOINT'));
 
-        $currencyConverterService = new CurrencyConverterService();
-
-        return $currencyConverterService->convertRates(
+        return $this->currencyConverterService->convertRates(
             $jsonExchangeRates['rates'],
             $jsonExchangeRates['base']
         );

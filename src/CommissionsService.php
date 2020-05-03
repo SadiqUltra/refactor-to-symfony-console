@@ -24,11 +24,12 @@ class CommissionsService
     /**
      * CommissionsService constructor.
      * @param ReaderService $readerService
+     * @param CurrencyConverterService $currencyConverterService
      */
-    public function __construct(ReaderService $readerService)
+    public function __construct(ReaderService $readerService, CurrencyConverterService $currencyConverterService)
     {
         $this->readerService = $readerService;
-        $this->currencyService = new CurrencyService($readerService);
+        $this->currencyService = new CurrencyService($readerService, $currencyConverterService);
     }
 
     /**

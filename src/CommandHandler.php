@@ -26,7 +26,8 @@ class CommandHandler extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $readerService = new ReaderService();
-        $commissionService = new CommissionsService($readerService);
+        $currencyConverterService = new CurrencyConverterService();
+        $commissionService = new CommissionsService($readerService, $currencyConverterService);
 
         $inputFileName = $input->getArgument('fileName');
 

@@ -31,13 +31,4 @@ class ReaderServiceTest extends TestCase
         $readerService = new ReaderService();
         $this->assertFalse(null !== $readerService->readApiToJson('data/errorrr.json'));
     }
-
-    public function testRates()
-    {
-        putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
-        putenv("BASE_CURRENCY=EUR");
-        putenv("CURRENCY_DATA_FILE=data/currency.json");
-        $readerService = new ReaderService();
-        $this->assertTrue(null !== $readerService->readRates());
-    }
 }

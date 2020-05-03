@@ -2,6 +2,7 @@
 
 
 use PHPUnit\Framework\TestCase;
+use Sadiq\CurrencyConverterService;
 use Sadiq\CurrencyService;
 use Sadiq\ReaderService;
 
@@ -13,7 +14,8 @@ class CurrencyServiceTest extends TestCase
         putenv("BASE_CURRENCY=EUR");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
-        $currencyService = new CurrencyService($readerService);
+        $currencyConverterService = new CurrencyConverterService();
+        $currencyService = new CurrencyService($readerService, $currencyConverterService);
 
         $this->assertTrue($currencyService->isBaseCurrency("AT"));
     }
@@ -25,7 +27,8 @@ class CurrencyServiceTest extends TestCase
         putenv("BASE_CURRENCY=EUR");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
-        $currencyService = new CurrencyService($readerService);
+        $currencyConverterService = new CurrencyConverterService();
+        $currencyService = new CurrencyService($readerService, $currencyConverterService);
 
         $this->assertFalse($currencyService->isBaseCurrency("BD"));
     }
@@ -36,7 +39,8 @@ class CurrencyServiceTest extends TestCase
         putenv("BASE_CURRENCY=EUR");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
-        $currencyService = new CurrencyService($readerService);
+        $currencyConverterService = new CurrencyConverterService();
+        $currencyService = new CurrencyService($readerService, $currencyConverterService);
 
         $this->assertTrue(null != $currencyService->getRates());
     }
@@ -47,7 +51,8 @@ class CurrencyServiceTest extends TestCase
         putenv("BASE_CURRENCY=BDT");
         putenv("CURRENCY_DATA_FILE=data/currency.json");
         $readerService = new ReaderService();
-        $currencyService = new CurrencyService($readerService);
+        $currencyConverterService = new CurrencyConverterService();
+        $currencyService = new CurrencyService($readerService, $currencyConverterService);
 
         $this->assertTrue(null == $currencyService->getRates());
     }
