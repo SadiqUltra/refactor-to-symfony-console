@@ -19,7 +19,7 @@ class Service
             get_class($this)
         );
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . getenv('LOG_FILE'), Logger::ERROR)
+            new StreamHandler(__DIR__ .'/../'. getenv('LOG_FILE'), Logger::ERROR)
         );
     }
 
@@ -30,6 +30,8 @@ class Service
      */
     public function logError($message, $level='error', $arg=[])
     {
-        $this->logger->$level($message, $arg);
+        if (getenv('ENV') !== 'TEST') {
+            $this->logger->$level($message, $arg);
+        }
     }
 }
