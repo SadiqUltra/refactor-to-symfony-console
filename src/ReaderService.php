@@ -26,13 +26,24 @@ class ReaderService
     }
 
     /**
-     * @return mixed
+     * @param $fileName
+     * @param bool $assoc
+     * @return mixed|null
      */
-    public function readCurrencyData()
+    public function readFileToJson($fileName, $assoc = false)
     {
-        $fileName = getenv('CURRENCY_DATA_FILE');
         $rawJson = $this->readFile($fileName);
-        return json_decode($rawJson);
+        try {
+            $data = json_decode($rawJson, $assoc);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Not Valid JSON: '.json_last_error_msg());
+            }
+            return $data;
+        } catch (Exception $exception) {
+            logError('ReaderService', $exception->getMessage());
+            return null;
+        }
     }
 
     /**
@@ -45,7 +56,6 @@ class ReaderService
             return file_get_contents($fileName);
         } else {
             logError('ReaderService', $fileName . ', not found');
-            echo 'Error';
             return null;
         }
     }
@@ -58,7 +68,7 @@ class ReaderService
     public function readApiToJson($apiEndPoint, $assoc = true)
     {
         try {
-            $rates = json_decode(
+            $data = json_decode(
                 file_get_contents($apiEndPoint),
                 $assoc
             );
@@ -67,7 +77,7 @@ class ReaderService
                 throw new Exception('Not Valid JSON: '.json_last_error_msg());
             }
 
-            return $rates;
+            return $data;
         } catch (Exception $exception) {
             logError('ReaderService', $exception->getMessage());
             echo 'error!';

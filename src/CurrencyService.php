@@ -35,7 +35,8 @@ class CurrencyService
      */
     public function isBaseCurrency($currency)
     {
-        $currencyDataJson = $this->readerService->readCurrencyData();
+        $currencyDataFileName = getenv('CURRENCY_DATA_FILE');
+        $currencyDataJson = $this->readerService->readFileToJson($currencyDataFileName);
 
         if (isset($currencyDataJson->$currency) && $currencyDataJson->$currency === getenv('BASE_CURRENCY')) {
             return true;
