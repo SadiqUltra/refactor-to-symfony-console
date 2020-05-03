@@ -38,6 +38,8 @@ class CommissionsServiceTest extends TestCase
 
     public function testBinError()
     {
+        putenv("ENV=TEST");
+
         putenv('RATES_API_ENDPOINT=' . __DIR__ . '/../offlineData/exchangeratesapi.json');
         putenv("BIN_LIST_API_ENDPOINT=" . __DIR__ . "/../offlineData/bin/");
         putenv("BASE_CURRENCY=EUR");
@@ -46,7 +48,7 @@ class CommissionsServiceTest extends TestCase
         $currencyConverterService = new CurrencyConverterService();
         $commissionService = new CommissionsService($readerService, $currencyConverterService);
 
-        $this->assertTrue(null == $commissionService->getCommission('{"bin":"45717353453460","amount":"100.00","currency":"EUR"}'));
+        $this->assertTrue('error' == $commissionService->getCommission('{"bin":"45717353453460","amount":"100.00","currency":"EUR"}'));
     }
 
     public function testCurrencyCAD()
@@ -72,6 +74,6 @@ class CommissionsServiceTest extends TestCase
         $currencyConverterService = new CurrencyConverterService();
         $commissionService = new CommissionsService($readerService, $currencyConverterService);
 
-        $this->assertTrue(null == $commissionService->getCommission('{"bin":"45717353453460","amount":"100.00","currency":"EUR"}'));
+        $this->assertTrue('error' == $commissionService->getCommission('{"bin":"45717353453460","amount":"100.00","currency":"EUR"}'));
     }
 }
