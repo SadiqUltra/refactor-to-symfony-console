@@ -79,7 +79,7 @@ class CommissionsService extends Service
         if (!$isBaseCurrency or $rate > 0) {
             // possibility of divided by zero
             if ($this->rates == 0) {
-                $this->logError('Rate = 0, Stopping execution!','critical');
+                $this->logError('Rate = 0, Stopping execution!', 'critical');
                 return 'error';
             }
             $amntFixed = $jsonRow->amount / $rate;
