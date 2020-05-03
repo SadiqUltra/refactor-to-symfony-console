@@ -6,7 +6,7 @@ namespace Sadiq;
  * Class CommissionsService
  * @package Sadiq
  */
-class CommissionsService
+class CommissionsService extends Service
 {
     /**
      * @var ReaderService
@@ -28,6 +28,7 @@ class CommissionsService
      */
     public function __construct(ReaderService $readerService, CurrencyConverterService $currencyConverterService)
     {
+        parent::__construct();
         $this->readerService = $readerService;
         $this->currencyService = new CurrencyService($readerService, $currencyConverterService);
     }
@@ -44,15 +45,15 @@ class CommissionsService
 
     /**
      * @param $row
-     * @return false|float|void|null
+     * @return false|float|string
      */
     public function getCommission($row)
     {
         $jsonRow = $this->readerService->readRow($row);
 
         if (!$jsonRow) {
-            echo 'error';
-            return null;
+            $this->logError('Could Not Read, Stopping execution!', 'critical');
+            return 'error';
         }
 
         $binResults = $this->readerService->readApiToJson(
@@ -61,8 +62,8 @@ class CommissionsService
         );
 
         if (!$binResults) {
-            echo 'error';
-            return null;
+            $this->logError('No Result from API, Stopping execution!', 'critical');
+            return 'error';
         }
 
         $isBaseCurrency = $this->currencyService->isBaseCurrency(
@@ -78,8 +79,8 @@ class CommissionsService
         if (!$isBaseCurrency or $rate > 0) {
             // possibility of divided by zero
             if ($this->rates == 0) {
-                logError('CommissionService', 'Rate = 0');
-                return;
+                $this->logError('Rate = 0, Stopping execution!','critical');
+                return 'error';
             }
             $amntFixed = $jsonRow->amount / $rate;
         }

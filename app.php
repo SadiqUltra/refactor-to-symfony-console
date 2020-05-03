@@ -12,13 +12,6 @@ require __DIR__ . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function logError($className, $message, $arg=[]){
-    (new Logger($className))
-        ->pushHandler(new StreamHandler(__DIR__ . getenv('LOG_FILE'), Logger::ERROR))
-        ->error($message, $arg)
-    ;
-}
-
 // main command file
 $command = new CommandHandler();
 $application = new Application();

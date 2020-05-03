@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * Class ReaderService
  * @package Sadiq
  */
-class ReaderService
+class ReaderService extends Service
 {
 
     /**
@@ -22,6 +22,7 @@ class ReaderService
      */
     public function __construct()
     {
+        parent::__construct();
         $this->filesystem = new Filesystem();
     }
 
@@ -41,7 +42,7 @@ class ReaderService
             }
             return $data;
         } catch (Exception $exception) {
-            logError('ReaderService', $exception->getMessage());
+            $this->logError($exception->getMessage());
             return null;
         }
     }
@@ -55,7 +56,7 @@ class ReaderService
         if ($this->filesystem->exists($fileName)) {
             return file_get_contents($fileName);
         } else {
-            logError('ReaderService', $fileName . ', not found');
+            $this->logError($fileName . ', not found');
             return null;
         }
     }
@@ -79,8 +80,7 @@ class ReaderService
 
             return $data;
         } catch (Exception $exception) {
-            logError('ReaderService', $exception->getMessage());
-            echo 'error!';
+            $this->logError($exception->getMessage());
             return null;
         }
     }
@@ -105,11 +105,10 @@ class ReaderService
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception('Not Valid JSON: '.json_last_error_msg());
             }
-
             return $jsonRow;
         } catch (Exception $exception) {
-            echo 'error!';
-            logError('ReaderService', $exception->getMessage());
+            $this->logError($exception->getMessage());
+            return null;
         }
     }
 }
